@@ -56,6 +56,7 @@
     margin-top:34px;border-left:4px solid var(--ff-gold);padding:6px 0 6px 22px;
     font-style:italic;font-weight:700;font-size:clamp(18px,2.4vw,23px);color:#fff;max-width:660px;
   }
+  .hero .purpose .mlabel{display:block;font-style:normal;font-weight:800;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ff-gold);margin-bottom:8px}
   .hero-geo{position:absolute;inset:0;z-index:1;opacity:.9}
 
   /* ---------- sections ---------- */
@@ -70,6 +71,7 @@
   .sub{font-size:17px;color:var(--ff-grey);max-width:720px;margin-bottom:8px}
   section.dark .sub{color:#c7c7c7}
   p{margin:14px 0}
+  .intro-note{max-width:720px;color:#444;font-size:16px;margin-top:12px}
 
   /* ---------- two binari cards (intro) ---------- */
   .binari{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:34px}
@@ -228,7 +230,7 @@
     <div class="kicker">Come funziona FAIRFLAI</div>
     <h1>Un'impresa che si<br><span class="g">auto-organizza</span>.</h1>
     <p class="lead">FAIRFLAI è una micro-impresa bootstrap nell'ecosistema Kopernicana. Niente organigramma a piramide: l'autorità è distribuita in ruoli, le decisioni si prendono vicino al lavoro e il valore economico si costruisce insieme, nel tempo. Ecco come.</p>
-    <div class="purpose">"Far evolvere le organizzazioni al prossimo livello, in cui l'AI sarà il membro del team di cui essere entusiasti."</div>
+    <div class="purpose"><span class="mlabel">La nostra mission</span>Far evolvere le organizzazioni al prossimo livello, in cui l'AI sarà il membro del team di cui essere entusiasti.</div>
   </div>
 </header>
 
@@ -237,18 +239,19 @@
   <div class="wrap">
     <div class="seclabel"><span class="dot"></span> Il modello</div>
     <h2>Due binari, distinti e paralleli</h2>
-    <p class="sub">FAIRFLAI tiene separati due piani che in molte aziende vengono confusi: come ci si organizza e decide il lavoro, e come si distribuisce e si governa il valore economico. Non vanno mai sovrapposti.</p>
+    <p class="sub">FAIRFLAI tiene separati due piani che in molte aziende vengono confusi: come ci si organizza e decide il lavoro, e come si distribuisce e governa il valore economico.</p>
+    <p class="intro-note">La separazione è deliberata: chi ha autorità sul lavoro quotidiano non per questo pesa di più nelle scelte societarie, e le questioni di quote ed equity non rallentano le decisioni operative. Ogni binario ha le sue regole e i suoi tempi.</p>
 
     <div class="binari">
       <div class="binario">
         <span class="tag">Binario 1 — Organizzativo</span>
         <h3>Come lavoriamo e decidiamo</h3>
-        <p>Auto-organizzazione secondo <b>Holacracy</b>, gestita sulla piattaforma <b>Nestr</b>. Il lavoro è organizzato in ruoli con purpose e responsabilità, dentro il cerchio (circle) FAIRFLAI. Le decisioni operative e strutturali passano dai rituali olocratici.</p>
+        <p>Il lavoro è organizzato in ruoli, ognuno con uno scopo e responsabilità chiare: chi ha un ruolo decide nel suo ambito senza chiedere permesso. La struttura si aggiorna di continuo attraverso riunioni con regole precise, secondo il metodo <b>Holacracy</b> (un framework di auto-organizzazione nato nel 2007 e usato da centinaia di aziende).</p>
       </div>
       <div class="binario">
         <span class="tag">Binario 2 — Societario</span>
         <h3>Come si costruisce il valore</h3>
-        <p>L'equity non è negoziata all'inizio: si accumula in proporzione al contributo reale tramite <b>Slicing Pie</b>. Le scelte che toccano soci, equity e regole del gioco sono <b>decisioni straordinarie</b> e si votano con regole dedicate.</p>
+        <p>Nessuno negozia una percentuale della società all'inizio: la quota di ciascuno cresce in proporzione a quanto contribuisce davvero, secondo il metodo <b>Slicing Pie</b>. Le poche scelte che toccano soci, quote e regole del gioco si votano con regole dedicate.</p>
       </div>
     </div>
 
@@ -294,8 +297,8 @@
 <section class="dark" id="diagramma">
   <div class="wrap">
     <div class="seclabel"><span class="dot"></span> Esplora il modello</div>
-    <h2>I motori della governance</h2>
-    <p class="sub">Clicca su un blocco per aprirne il dettaglio. I primi tre governano il lavoro; gli ultimi due, il valore.</p>
+    <h2>Il modello nel dettaglio</h2>
+    <p class="sub">Cinque meccanismi. Clicca su un blocco per aprirlo: i primi tre riguardano il lavoro (binario organizzativo), gli ultimi due il valore (binario societario).</p>
 
     <div class="diagram">
       <div class="group">
@@ -347,7 +350,7 @@
         <p class="plead">L'autorità è distribuita in ruoli, non concentrata in capi. Il cambiamento nasce dalle tensioni e passa da due riunioni con funzioni diverse.</p>
 
         <h4><span class="idx">A.</span>Ruoli, non persone</h4>
-        <p>Il lavoro è organizzato in <b>ruoli</b>, ciascuno con un purpose e delle responsabilità (accountability), dentro il cerchio FAIRFLAI. Una persona può energizzare più ruoli. Chi ricopre un ruolo ha l'autorità di agire nel suo ambito <b>senza chiedere permesso</b>.</p>
+        <p>Il lavoro è organizzato in <b>ruoli</b>, ciascuno con un purpose e delle responsabilità (accountability), dentro il cerchio FAIRFLAI. Una persona può ricoprire più ruoli contemporaneamente. Chi ricopre un ruolo ha l'autorità di agire nel suo ambito <b>senza chiedere permesso</b>.</p>
 
         <div class="callgrid">
           <div class="callcard gold">
@@ -363,7 +366,7 @@
         </div>
 
         <h4><span class="idx">B.</span>Le tensioni: il motore</h4>
-        <p>Una <b>tensione</b> è la distanza tra come stanno le cose e come potrebbero stare — un problema o un'opportunità. Chiunque energizzi un ruolo può portare una tensione e processarla nella riunione giusta. È così che l'organizzazione si aggiorna di continuo, senza aspettare una riforma dall'alto.</p>
+        <p>Una <b>tensione</b> è la distanza tra come stanno le cose e come potrebbero stare — un problema o un'opportunità. Chiunque ricopra un ruolo può portare una tensione e processarla nella riunione giusta. È così che l'organizzazione si aggiorna di continuo, senza aspettare una riforma dall'alto.</p>
 
         <h4><span class="idx">C.</span>Due riunioni, due scopi</h4>
         <div class="callgrid">
@@ -386,17 +389,17 @@
     <div class="detail" id="d-waterline">
       <div class="panel" id="waterline">
         <h3>Waterline — autonomia di spesa</h3>
-        <p class="plead">Le spese seguono la logica del "waterline investing": sotto una certa linea di galleggiamento si agisce in autonomia, sopra si coinvolge il team. La trasparenza è d'obbligo — ogni spesa va registrata prima di essere sostenuta nel registro pubblico su Monday.</p>
+        <p class="plead">Le spese seguono la logica del "waterline investing": sotto una certa linea di galleggiamento si agisce in autonomia, sopra si coinvolge il team. La trasparenza è d'obbligo — ogni spesa va registrata prima di essere sostenuta in un registro pubblico accessibile a tutti.</p>
         <div class="callgrid">
           <div class="callcard gold">
             <div class="ct">Fino a €500 — sotto waterline</div>
             <h5>Autonomia piena</h5>
-            <p>Spesa autorizzata in autonomia. Unico obbligo: la registrazione ex-ante nel registro pubblico.</p>
+            <p>Spesa autorizzata in autonomia. Unico obbligo: registrarla prima nel registro pubblico.</p>
           </div>
           <div class="callcard">
             <div class="ct">Oltre €500 — sopra waterline</div>
             <h5>Comunichi, poi decidi</h5>
-            <p>Registrazione ex-ante + comunicazione al team prima di spendere (tensione in Tactical o canale Slack "Sales deals"). Il team dà feedback entro 24h, ma la decisione finale resta di chi propone.</p>
+            <p>Prima di spendere, registri la spesa e la comunichi al team. Il team dà feedback entro 24 ore, ma la decisione finale resta di chi propone.</p>
           </div>
         </div>
         <div class="note">C'è un tetto: il budget waterline di ogni quadrimestre è pari al <b>5% del budget annuale</b> di quella categoria. Superarlo richiede l'approvazione con processo integrativo in Tactical.</div>
@@ -407,14 +410,13 @@
     <div class="detail" id="d-incarichi">
       <div class="panel" id="incarichi">
         <h3>Incarichi di progetto</h3>
-        <p class="plead">Il denaro di un progetto si distribuisce tramite incarichi tracciati su Monday, e la responsabilità di impostarli è chiara. Prima dell'avvio formale di un progetto, il Client Owner assegnato:</p>
+        <p class="plead">Il denaro di un progetto si distribuisce tramite incarichi, ciascuno con importo e deliverable definiti prima di iniziare. A impostarli è il Client Owner, la persona che ha in carico la relazione con il cliente:</p>
         <ul>
-          <li>Definisce e concorda su Monday gli <b>incarichi</b> — con importi e deliverable — insieme alle persone coinvolte nella delivery</li>
+          <li>Concorda gli <b>incarichi</b> — importo e deliverable — con le persone coinvolte nella delivery</li>
           <li>Valuta se serve un <b>Project Manager</b> e, in tal caso, gli assegna un incarico dedicato</li>
           <li>Si <b>autoalloca un incarico remunerato</b> per l'attività di setup pre-avvio</li>
           <li>Mantiene gli incarichi aggiornati nel tempo</li>
         </ul>
-        <div class="note"><b>Perché conta:</b> importi e deliverable sono chiari e condivisi <b>prima</b> di iniziare — niente ambiguità su chi fa cosa e con quale compenso.</div>
       </div>
     </div>
 
@@ -442,20 +444,20 @@
           <li>All'ingresso ciascuno propone la propria <b>tariffa base</b>: le reazioni del gruppo sono consultive, ma la responsabilità della tariffa resta della persona.</li>
         </ul>
 
-        <h4><span class="idx">C.</span>La distinzione più critica: captive vs produzione netta</h4>
-        <p>I progetti il cui cliente finale è <b>Kopernicana</b> (produzione "captive") seguono una regola doppia, ed è qui che si sbaglia più facilmente:</p>
-        <ul>
-          <li><b>Contano</b> per far scattare il trigger del baking (produzione totale).</li>
-          <li><b>Non entrano</b> nella valutazione di FAIRFLAI ai fini delle opzioni put/call, che si calcola solo sulla <b>Produzione Netta</b> (12 mesi rolling).</li>
-        </ul>
-
-        <h4><span class="idx">D.</span>Il baking: quando la torta si congela</h4>
+        <h4><span class="idx">C.</span>Il baking: quando la torta si congela</h4>
         <div class="stat">
           <div class="big">€1M</div>
           <div class="sd">Quando la produzione totale (inclusa captive) su 12 mesi rolling raggiunge <b>€1.000.000</b>, le quote si cristallizzano in equity formale. La verifica è mensile.</div>
         </div>
         <div class="formula">Equity<span class="g">(i)</span> = ( Contributo Ponderato<span class="g">(i)</span> / Totale ) × <span class="g">95%</span>&nbsp;&nbsp;·&nbsp;&nbsp;il restante <span class="g">5%</span> è sempre di Kopernicana</div>
-        <div class="note"><b>Dopo il baking</b> entrano in gioco opzioni <b>put/call</b> che regolano il rapporto con Kopernicana a seconda che questa detenga meno o più del 51% dell'equity. Kopernicana è socio istituzionale con trattamento dedicato.</div>
+        <div class="note">Il <b>5%</b> dell'equity è sempre riservato a <b>Kopernicana</b>, l'ecosistema di cui FAIRFLAI fa parte e che ne ha sostenuto l'avvio: è socio istituzionale con trattamento dedicato. Dopo il baking entrano in gioco opzioni <b>put/call</b> che regolano il rapporto con Kopernicana a seconda che detenga meno o più del 51% dell'equity.</div>
+
+        <h4><span class="idx">D.</span>La distinzione più critica: captive vs produzione netta</h4>
+        <p>I progetti il cui cliente finale è <b>Kopernicana</b> (produzione "captive") seguono una regola doppia, ed è qui che si sbaglia più facilmente:</p>
+        <ul>
+          <li><b>Contano</b> per far scattare il trigger del baking (produzione totale).</li>
+          <li><b>Non entrano</b> nella valutazione di FAIRFLAI ai fini delle opzioni put/call, che si calcola solo sulla <b>Produzione Netta</b> (12 mesi rolling).</li>
+        </ul>
       </div>
     </div>
 
