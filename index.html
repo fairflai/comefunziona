@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Come funziona FAIRFLAI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 <style>
   :root{
     --ff-white:#FFFFFF;
@@ -17,7 +20,7 @@
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{
-    font-family:'Inter','Helvetica Neue',system-ui,sans-serif;
+    font-family:'Montserrat','Helvetica Neue',system-ui,sans-serif;
     color:var(--ff-black);
     background:var(--ff-white);
     line-height:1.55;
@@ -32,7 +35,9 @@
     border-bottom:1px solid #2b2b2b;
   }
   .topbar .wrap{display:flex;align-items:center;gap:14px;height:60px}
-  .topbar .brand{display:flex;align-items:center;gap:10px;color:#fff;font-weight:800;letter-spacing:-.02em}
+  .topbar .brand{display:flex;align-items:center;gap:11px;color:#fff}
+  .topbar .brand-picto{height:24px;width:auto;display:block}
+  .topbar .brand-word{height:15px;width:auto;display:block}
   .topbar nav{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
   .topbar nav a{
     color:#cfcfcf;text-decoration:none;font-size:13px;font-weight:600;
@@ -119,7 +124,7 @@
   .detail{margin-top:26px;display:none;animation:fade .3s ease}
   .detail.open{display:block}
   @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-  .panel{background:#fff;color:#1A1A1A;border-radius:8px;padding:34px;border-top:5px solid var(--ff-gold)}
+  .panel{background:#fff;color:#1A1A1A;border-radius:8px;padding:34px;border-top:5px solid var(--ff-gold);scroll-margin-top:80px}
   .panel h3{font-size:26px;font-weight:900;letter-spacing:-.02em;margin-bottom:4px}
   .panel .plead{color:var(--ff-grey);font-size:16px;margin:0 0 20px}
   .panel h4{font-size:15px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin:26px 0 10px;color:#1A1A1A}
@@ -195,15 +200,8 @@
 <div class="topbar">
   <div class="wrap">
     <div class="brand">
-      <svg viewBox="0 0 200 100" width="36" height="18" aria-hidden="true">
-        <g fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round">
-          <path d="M99.5 2 L113 12 L112 37 L86 37 L85.5 12 Z"/>
-          <path d="M3 2 L76 13 L80 38 L28 52 Z"/>
-          <path d="M197 2 L124 13 L120 38 L172 52 Z"/>
-          <path d="M68 46 L133 46 L134 70 L100 96 L67 70 Z"/>
-        </g>
-      </svg>
-      FAIRFLAI
+      <img class="brand-picto" src="assets/FairflaiStudios_Pittogramma_Bianco.png" alt="">
+      <img class="brand-word" src="assets/FairflaiStudios_Logotipo_Bianco.png" alt="FAIRFLAI">
     </div>
     <nav>
       <a href="#intro">Il modello</a>
@@ -277,12 +275,11 @@
         <ul>
           <li>Contribuisce al bene della micro-impresa: evoluzione continua e sostenibilità economica collettiva</li>
           <li><b>Revenue sharing</b> di €1.000/mese (dopo 20 giorni lavorativi)</li>
-          <li>Partecipa a <b>Slicing Pie</b>: matura quota di equity</li>
           <li><b>Diritto di voto</b> nelle decisioni straordinarie</li>
         </ul>
       </div>
       <div class="rolecard plain">
-        <h4>FairFlaier Bootstrapper</h4>
+        <h4>FAIRFLAIER Bootstrapper</h4>
         <div class="role-sub">Chi costruisce l'equity nel bootstrap</div>
         <ul>
           <li>È il FAIRFLAIER che partecipa <b>attivamente allo Slicing Pie</b> nella fase di avvio</li>
@@ -363,7 +360,7 @@
           <div class="callcard">
             <div class="ct">Ruoli operativi (esempi reali)</div>
             <h5>Business Developer · GTM Ops · Recruiter</h5>
-            <p>E ancora: Data Keeper, OKR Champion, FairFlaier Bootstrapper, oltre ai ruoli trasversali FAIRFLAIER e FELLOW. Ogni ruolo ha responsabilità esplicite e pubbliche su Nestr.</p>
+            <p>E ancora: Data Keeper, OKR Champion, FAIRFLAIER Bootstrapper, oltre ai ruoli trasversali FAIRFLAIER e FELLOW. Ogni ruolo ha responsabilità esplicite e pubbliche su Nestr.</p>
           </div>
         </div>
 
@@ -494,9 +491,9 @@
         <h4><span class="idx">B.</span>Quali decisioni sono straordinarie</h4>
         <div class="decisions">
           <div class="dcard"><span class="n">1</span> Conferimento di liquidità in FAIRFLAI in regime di Slicing Pie</div>
-          <div class="dcard"><span class="n">2</span> Ingresso di un nuovo Fairflaier</div>
-          <div class="dcard"><span class="n">3</span> Adesione di un Fairflaier al regime di Slicing Pie</div>
-          <div class="dcard"><span class="n">4</span> Estromissione di un Fairflaier dal regime di Slicing Pie</div>
+          <div class="dcard"><span class="n">2</span> Ingresso di un nuovo FAIRFLAIER</div>
+          <div class="dcard"><span class="n">3</span> Adesione di un FAIRFLAIER al regime di Slicing Pie</div>
+          <div class="dcard"><span class="n">4</span> Estromissione di un FAIRFLAIER dal regime di Slicing Pie</div>
           <div class="dcard"><span class="n">5</span> Modifica del trigger event per il baking</div>
           <div class="dcard"><span class="n">6</span> Modifica delle attività conferibili in Slicing Pie o dei loro moltiplicatori</div>
         </div>
@@ -510,14 +507,7 @@
 <!-- ============ FOOTER ============ -->
 <footer>
   <div class="wrap">
-    <svg viewBox="0 0 200 100" width="42" height="21" aria-hidden="true">
-      <g fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round">
-        <path d="M99.5 2 L113 12 L112 37 L86 37 L85.5 12 Z"/>
-        <path d="M3 2 L76 13 L80 38 L28 52 Z"/>
-        <path d="M197 2 L124 13 L120 38 L172 52 Z"/>
-        <path d="M68 46 L133 46 L134 70 L100 96 L67 70 Z"/>
-      </g>
-    </svg>
+    <img src="assets/FairflaiStudios_Pittogramma_Bianco.png" alt="FAIRFLAI" style="height:26px;width:auto">
     <div>FAIRFLAI — micro-impresa dell'ecosistema Kopernicana</div>
     <div class="src">
       Fonti: policy FAIRFLAI su Nestr (Slicing Pie · Decisioni di governance e straordinarie · Revenue sharing · Tariffa base)<br>
@@ -527,14 +517,7 @@
 </footer>
 
 <div class="pitto-corner">
-  <svg viewBox="0 0 200 100" width="48" height="24" aria-hidden="true">
-    <g fill="#1A1A1A" stroke="#1A1A1A" stroke-width="3" stroke-linejoin="round">
-      <path d="M99.5 2 L113 12 L112 37 L86 37 L85.5 12 Z"/>
-      <path d="M3 2 L76 13 L80 38 L28 52 Z"/>
-      <path d="M197 2 L124 13 L120 38 L172 52 Z"/>
-      <path d="M68 46 L133 46 L134 70 L100 96 L67 70 Z"/>
-    </g>
-  </svg>
+  <img src="assets/FairflaiStudios_Pittogramma_Nero.png" alt="" style="height:30px;width:auto;display:block">
 </div>
 
 <script>
@@ -570,6 +553,23 @@
   }
   ids.forEach(id=>document.getElementById(id).addEventListener('input',render));
   render();
+
+  // ---- nav links that point inside a collapsed detail panel: open it, then scroll ----
+  document.querySelectorAll('.topbar nav a').forEach(a=>{
+    a.addEventListener('click',e=>{
+      const hash = a.getAttribute('href');
+      if(!hash || hash.charAt(0)!=='#') return;
+      const target = document.querySelector(hash);
+      if(!target) return;
+      const detail = target.closest('.detail');
+      if(!detail) return; // ordinary in-page anchor, let the browser handle it
+      e.preventDefault();
+      const node = document.querySelector('.node[data-target="'+detail.id+'"]');
+      nodes.forEach(x=>x.classList.toggle('active', x===node));
+      details.forEach(d=>d.classList.toggle('open', d===detail));
+      target.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
 </script>
 </body>
 </html>
