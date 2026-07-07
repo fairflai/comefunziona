@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Come funziona FAIRFLAI</title>
+<style>
+  :root{
+    --ff-white:#FFFFFF;
+    --ff-black:#1A1A1A;
+    --ff-gold:#F5A623;
+    --ff-gold-bright:#FFB800;
+    --ff-grey:#666666;
+    --ff-grey-light:#F2F2F2;
+    --ff-border:#E5E5E5;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter','Helvetica Neue',system-ui,sans-serif;
+    color:var(--ff-black);
+    background:var(--ff-white);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(26,26,26,.96);backdrop-filter:blur(6px);
+    border-bottom:1px solid #2b2b2b;
+  }
+  .topbar .wrap{display:flex;align-items:center;gap:14px;height:60px}
+  .topbar .brand{display:flex;align-items:center;gap:10px;color:#fff;font-weight:800;letter-spacing:-.02em}
+  .topbar nav{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+  .topbar nav a{
+    color:#cfcfcf;text-decoration:none;font-size:13px;font-weight:600;
+    padding:7px 12px;border-radius:4px;transition:.15s;
+  }
+  .topbar nav a:hover{color:#fff;background:#2b2b2b}
+
+  /* ---------- hero ---------- */
+  .hero{background:var(--ff-black);color:#fff;padding:84px 0 96px;position:relative;overflow:hidden}
+  .hero .wrap{position:relative;z-index:2;max-width:820px}
+  .kicker{font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ff-gold);margin-bottom:20px}
+  .hero h1{font-size:clamp(40px,6.5vw,72px);font-weight:900;letter-spacing:-.03em;line-height:1.02}
+  .hero h1 .g{color:var(--ff-gold)}
+  .hero p.lead{font-size:clamp(17px,2.2vw,21px);color:#d6d6d6;margin-top:24px;max-width:640px}
+  .hero .purpose{
+    margin-top:34px;border-left:4px solid var(--ff-gold);padding:6px 0 6px 22px;
+    font-style:italic;font-weight:700;font-size:clamp(18px,2.4vw,23px);color:#fff;max-width:660px;
+  }
+  .hero-geo{position:absolute;inset:0;z-index:1;opacity:.9}
+
+  /* ---------- sections ---------- */
+  section{padding:68px 0}
+  section.light{background:var(--ff-white)}
+  section.grey{background:var(--ff-grey-light)}
+  section.dark{background:var(--ff-black);color:#fff}
+  .seclabel{display:flex;align-items:center;gap:9px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ff-grey);margin-bottom:14px}
+  section.dark .seclabel{color:#9a9a9a}
+  .dot{width:9px;height:9px;background:var(--ff-gold);border-radius:2px;display:inline-block}
+  h2{font-size:clamp(28px,4vw,44px);font-weight:900;letter-spacing:-.025em;line-height:1.05;margin-bottom:10px}
+  .sub{font-size:17px;color:var(--ff-grey);max-width:720px;margin-bottom:8px}
+  section.dark .sub{color:#c7c7c7}
+  p{margin:14px 0}
+
+  /* ---------- two binari cards (intro) ---------- */
+  .binari{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:34px}
+  .binario{border:1px solid var(--ff-border);border-radius:6px;padding:26px;background:#fff}
+  .binario h3{font-size:20px;font-weight:800;letter-spacing:-.01em;margin-bottom:6px}
+  .binario .tag{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ff-gold);display:block;margin-bottom:10px}
+  .binario p{margin:8px 0 0;font-size:15px;color:#444}
+
+  /* role cards */
+  .rolegrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px}
+  .rolecard{border-radius:6px;padding:26px;border:1px solid var(--ff-border)}
+  .rolecard.gold{background:var(--ff-gold);border-color:var(--ff-gold)}
+  .rolecard h4{font-size:19px;font-weight:800;margin-bottom:4px}
+  .rolecard .role-sub{font-size:13px;font-weight:700;color:var(--ff-grey);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px}
+  .rolecard.gold .role-sub{color:#6b4a08}
+  .rolecard ul{list-style:none;margin:0;padding:0}
+  .rolecard li{font-size:14px;padding:6px 0 6px 22px;position:relative;border-top:1px solid rgba(0,0,0,.08)}
+  .rolecard li:first-child{border-top:none}
+  .rolecard li::before{content:"";position:absolute;left:2px;top:13px;width:8px;height:8px;background:var(--ff-black);border-radius:50%}
+  .rolecard.gold li::before{background:#1A1A1A}
+  .rolecard.plain li::before{background:var(--ff-gold)}
+
+  /* ---------- interactive diagram ---------- */
+  .diagram{margin-top:14px}
+  .track-head{display:flex;gap:20px;margin-bottom:12px}
+  .track-head>div{flex:1;text-align:center;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9a9a9a;padding-bottom:10px;border-bottom:2px solid #333}
+  .track-head .t2{color:var(--ff-gold)}
+  .group+.group{margin-top:26px}
+  .group-label{display:flex;align-items:center;gap:9px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9a9a9a;padding-bottom:12px;margin-bottom:16px;border-bottom:2px solid #333}
+  .group-label.t2{color:var(--ff-gold)}
+  .group-label.t2 .dot{background:var(--ff-gold)}
+  .nodes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .nodes.n2{grid-template-columns:repeat(2,1fr)}
+  .nodes.n3{grid-template-columns:repeat(3,1fr)}
+  .node{
+    text-align:left;cursor:pointer;border:1px solid #333;background:#111;color:#fff;
+    border-radius:8px;padding:22px 20px;transition:.18s;position:relative;overflow:hidden;
+  }
+  .node:hover{border-color:var(--ff-gold);transform:translateY(-3px)}
+  .node.active{background:var(--ff-gold);color:#1A1A1A;border-color:var(--ff-gold)}
+  .node .num{font-size:12px;font-weight:800;letter-spacing:.1em;opacity:.6}
+  .node.active .num{opacity:.7}
+  .node h3{font-size:20px;font-weight:800;letter-spacing:-.01em;margin:10px 0 6px}
+  .node p{font-size:13.5px;margin:0;color:#b9b9b9}
+  .node.active p{color:#5a3f07}
+  .node .chev{position:absolute;right:18px;bottom:16px;font-size:20px;transition:.2s;opacity:.5}
+  .node.active .chev{transform:rotate(90deg);opacity:1}
+  .track-note{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-top:10px}
+  .track-note span{font-size:11px;color:#777;letter-spacing:.05em;text-transform:uppercase;text-align:center;padding-top:8px;border-top:1px dashed #3a3a3a}
+
+  /* detail panel */
+  .detail{margin-top:26px;display:none;animation:fade .3s ease}
+  .detail.open{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .panel{background:#fff;color:#1A1A1A;border-radius:8px;padding:34px;border-top:5px solid var(--ff-gold)}
+  .panel h3{font-size:26px;font-weight:900;letter-spacing:-.02em;margin-bottom:4px}
+  .panel .plead{color:var(--ff-grey);font-size:16px;margin:0 0 20px}
+  .panel h4{font-size:15px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin:26px 0 10px;color:#1A1A1A}
+  .panel h4 .idx{color:var(--ff-gold);margin-right:8px}
+  .panel p{font-size:15px;color:#333;margin:10px 0}
+  .panel ul{margin:8px 0 8px 0;padding-left:0;list-style:none}
+  .panel ul li{font-size:14.5px;color:#333;padding:8px 0 8px 24px;position:relative;border-bottom:1px solid var(--ff-grey-light)}
+  .panel ul li::before{content:"";position:absolute;left:4px;top:15px;width:8px;height:8px;background:var(--ff-gold);border-radius:2px}
+  .panel ul li b{color:#1A1A1A}
+
+  .callgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+  .callcard{background:var(--ff-black);color:#fff;border-radius:6px;padding:20px}
+  .callcard.gold{background:var(--ff-gold);color:#1A1A1A}
+  .callcard .ct{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;opacity:.7}
+  .callcard h5{font-size:18px;font-weight:800;margin:6px 0}
+  .callcard p{font-size:13.5px;margin:4px 0 0;color:#cfcfcf}
+  .callcard.gold p{color:#5a3f07}
+
+  table.mult{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}
+  table.mult th{background:var(--ff-gold);color:#1A1A1A;text-align:left;padding:11px 14px;font-weight:800}
+  table.mult td{padding:11px 14px;border-bottom:1px solid var(--ff-border)}
+  table.mult td:last-child{text-align:right;font-weight:800;font-family:'SF Mono',ui-monospace,monospace;white-space:nowrap}
+  table.mult tr:nth-child(even) td{background:#fafafa}
+
+  .formula{background:#1A1A1A;color:#fff;border-radius:6px;padding:16px 20px;font-family:'SF Mono',ui-monospace,monospace;font-size:14px;margin:14px 0;overflow-x:auto}
+  .formula .g{color:var(--ff-gold)}
+
+  .stat{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:18px 0;padding:18px 0;border-top:1px solid var(--ff-border);border-bottom:1px solid var(--ff-border)}
+  .stat .big{font-size:clamp(46px,8vw,76px);font-weight:900;color:var(--ff-gold);letter-spacing:-.03em;line-height:1}
+  .stat .sd{font-size:15px;color:var(--ff-grey);max-width:420px}
+
+  .note{background:var(--ff-grey-light);border-left:4px solid var(--ff-gold);border-radius:0 6px 6px 0;padding:14px 18px;font-size:14px;margin:16px 0}
+  .note b{color:#1A1A1A}
+
+  /* sqrt demo */
+  .demo{background:#fff;border:1px solid var(--ff-border);border-radius:8px;padding:24px;margin-top:18px}
+  .demo h4{margin-top:0}
+  .demo .row{display:grid;grid-template-columns:70px 1fr;gap:14px;align-items:center;margin:12px 0}
+  .demo .row label{font-weight:800;font-size:14px}
+  .demo input[type=range]{width:100%;accent-color:var(--ff-gold)}
+  .bars{margin-top:18px}
+  .barline{margin:10px 0}
+  .barline .bl-top{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px}
+  .bar{height:26px;border-radius:4px;position:relative;background:var(--ff-grey-light);overflow:hidden}
+  .bar .fill{height:100%;border-radius:4px;transition:width .25s}
+  .bar .fill.cap{background:#bdbdbd}
+  .bar .fill.sqrt{background:var(--ff-gold)}
+  .demo .legend{display:flex;gap:20px;font-size:12px;color:var(--ff-grey);margin-top:14px;flex-wrap:wrap}
+  .demo .legend span{display:flex;align-items:center;gap:6px}
+  .demo .sw{width:12px;height:12px;border-radius:3px;display:inline-block}
+
+  .decisions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+  .decisions .dcard{border:1px solid var(--ff-border);border-radius:6px;padding:14px 16px;font-size:14px;font-weight:600;display:flex;gap:10px;align-items:flex-start}
+  .decisions .dcard .n{color:var(--ff-gold);font-weight:900}
+
+  footer{background:var(--ff-black);color:#9a9a9a;padding:40px 0;font-size:13px}
+  footer .wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  footer .src{margin-left:auto;text-align:right;line-height:1.7}
+  .pitto-corner{position:fixed;right:18px;bottom:16px;z-index:40;opacity:.9}
+
+  @media(max-width:760px){
+    .binari,.rolegrid,.callgrid,.decisions{grid-template-columns:1fr}
+    .nodes,.nodes.n2,.nodes.n3{grid-template-columns:1fr}
+    .track-head,.track-note{display:none}
+    .topbar nav{display:none}
+    .demo .row{grid-template-columns:56px 1fr}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ TOP BAR ============ -->
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand">
+      <svg viewBox="0 0 200 100" width="36" height="18" aria-hidden="true">
+        <g fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round">
+          <path d="M99.5 2 L113 12 L112 37 L86 37 L85.5 12 Z"/>
+          <path d="M3 2 L76 13 L80 38 L28 52 Z"/>
+          <path d="M197 2 L124 13 L120 38 L172 52 Z"/>
+          <path d="M68 46 L133 46 L134 70 L100 96 L67 70 Z"/>
+        </g>
+      </svg>
+      FAIRFLAI
+    </div>
+    <nav>
+      <a href="#intro">Il modello</a>
+      <a href="#rituali">Rituali olocratici</a>
+      <a href="#pie">Slicing Pie</a>
+      <a href="#straordinarie">Decisioni straordinarie</a>
+    </nav>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <svg class="hero-geo" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <pattern id="grid" patternUnits="userSpaceOnUse" width="40" height="40">
+        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#fff" stroke-width="0.5" opacity="0.05"/>
+      </pattern>
+    </defs>
+    <rect width="1200" height="400" fill="url(#grid)"/>
+    <polygon points="980,-40 1240,120 1080,360 860,200" fill="#F5A623" opacity="0.14"/>
+    <polygon points="1080,40 1260,180 1160,340" fill="#F5A623" opacity="0.22"/>
+    <line x1="120" y1="60" x2="420" y2="60" stroke="#F5A623" stroke-width="1" opacity="0.3"/>
+    <line x1="120" y1="60" x2="120" y2="180" stroke="#F5A623" stroke-width="1" opacity="0.3"/>
+  </svg>
+  <div class="wrap">
+    <div class="kicker">Come funziona FAIRFLAI</div>
+    <h1>Un'impresa che si<br><span class="g">auto-organizza</span>.</h1>
+    <p class="lead">FAIRFLAI è una micro-impresa bootstrap nell'ecosistema Kopernicana. Niente organigramma a piramide: l'autorità è distribuita in ruoli, le decisioni si prendono vicino al lavoro e il valore economico si costruisce insieme, nel tempo. Ecco come.</p>
+    <div class="purpose">"Far evolvere le organizzazioni al prossimo livello, in cui l'AI sarà il membro del team di cui essere entusiasti."</div>
+  </div>
+</header>
+
+<!-- ============ INTRO / MODELLO ============ -->
+<section class="light" id="intro">
+  <div class="wrap">
+    <div class="seclabel"><span class="dot"></span> Il modello</div>
+    <h2>Due binari, distinti e paralleli</h2>
+    <p class="sub">FAIRFLAI tiene separati due piani che in molte aziende vengono confusi: come ci si organizza e decide il lavoro, e come si distribuisce e si governa il valore economico. Non vanno mai sovrapposti.</p>
+
+    <div class="binari">
+      <div class="binario">
+        <span class="tag">Binario 1 — Organizzativo</span>
+        <h3>Come lavoriamo e decidiamo</h3>
+        <p>Auto-organizzazione secondo <b>Holacracy</b>, gestita sulla piattaforma <b>Nestr</b>. Il lavoro è organizzato in ruoli con purpose e responsabilità, dentro il cerchio (circle) FAIRFLAI. Le decisioni operative e strutturali passano dai rituali olocratici.</p>
+      </div>
+      <div class="binario">
+        <span class="tag">Binario 2 — Societario</span>
+        <h3>Come si costruisce il valore</h3>
+        <p>L'equity non è negoziata all'inizio: si accumula in proporzione al contributo reale tramite <b>Slicing Pie</b>. Le scelte che toccano soci, equity e regole del gioco sono <b>decisioni straordinarie</b> e si votano con regole dedicate.</p>
+      </div>
+    </div>
+
+    <div class="seclabel" style="margin-top:52px"><span class="dot"></span> Come si entra</div>
+    <h2>Tre modi di far parte di FAIRFLAI</h2>
+    <p class="sub">Il livello di accesso all'ecosistema dipende dal ruolo. Questa è la distinzione più utile se stai valutando di collaborare.</p>
+
+    <div class="rolegrid">
+      <div class="rolecard plain">
+        <h4>FELLOW</h4>
+        <div class="role-sub">Collaboratore su incarico</div>
+        <ul>
+          <li>Accesso a Nestr, Slack e al <b>mercato del lavoro interno</b>: può candidarsi e prendere incarichi</li>
+          <li>Contribuisce a incarichi billable o retribuiti</li>
+          <li><b>No</b> revenue sharing, <b>no</b> Slicing Pie, <b>no</b> diritto di voto</li>
+          <li>Primo punto di contatto con l'ecosistema; ingresso e uscita per decisione di governance</li>
+        </ul>
+      </div>
+      <div class="rolecard gold">
+        <h4>FAIRFLAIER</h4>
+        <div class="role-sub">Membro pieno del collettivo</div>
+        <ul>
+          <li>Contribuisce al bene della micro-impresa: evoluzione continua e sostenibilità economica collettiva</li>
+          <li><b>Revenue sharing</b> di €1.000/mese (dopo 20 giorni lavorativi)</li>
+          <li>Partecipa a <b>Slicing Pie</b>: matura quota di equity</li>
+          <li><b>Diritto di voto</b> nelle decisioni straordinarie</li>
+        </ul>
+      </div>
+      <div class="rolecard plain">
+        <h4>FairFlaier Bootstrapper</h4>
+        <div class="role-sub">Chi costruisce l'equity nel bootstrap</div>
+        <ul>
+          <li>È il FAIRFLAIER che partecipa <b>attivamente allo Slicing Pie</b> nella fase di avvio</li>
+          <li>Si impegna a <b>conferire</b> il proprio contributo fino al trigger event del baking</li>
+          <li>Il suo purpose è <b>sviluppare il purpose di FAIRFLAI</b>, non solo eseguire incarichi</li>
+          <li>Ha voce sulle allocazioni non coperte dalla policy Sales Fee di Kopernicana</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INTERACTIVE DIAGRAM ============ -->
+<section class="dark" id="diagramma">
+  <div class="wrap">
+    <div class="seclabel"><span class="dot"></span> Esplora il modello</div>
+    <h2>I motori della governance</h2>
+    <p class="sub">Clicca su un blocco per aprirne il dettaglio. I primi tre governano il lavoro; gli ultimi due, il valore.</p>
+
+    <div class="diagram">
+      <div class="group">
+        <div class="group-label"><span class="dot"></span> Binario 1 · Organizzativo — come lavoriamo e decidiamo</div>
+        <div class="nodes n3">
+          <button class="node active" data-target="d-rituali">
+            <div class="num">01</div>
+            <h3>Rituali olocratici</h3>
+            <p>Ruoli, tensioni e riunioni: come si decide ogni giorno.</p>
+            <span class="chev">›</span>
+          </button>
+          <button class="node" data-target="d-waterline">
+            <div class="num">02</div>
+            <h3>Waterline</h3>
+            <p>Autonomia di spesa: fin dove si agisce da soli.</p>
+            <span class="chev">›</span>
+          </button>
+          <button class="node" data-target="d-incarichi">
+            <div class="num">03</div>
+            <h3>Incarichi di progetto</h3>
+            <p>Come si impostano e si pagano gli incarichi.</p>
+            <span class="chev">›</span>
+          </button>
+        </div>
+      </div>
+      <div class="group">
+        <div class="group-label t2"><span class="dot"></span> Binario 2 · Societario — come si costruisce e governa il valore</div>
+        <div class="nodes n2">
+          <button class="node" data-target="d-pie">
+            <div class="num">04</div>
+            <h3>Slicing Pie</h3>
+            <p>Equity dinamica: la quota cresce con il contributo.</p>
+            <span class="chev">›</span>
+          </button>
+          <button class="node" data-target="d-straordinarie">
+            <div class="num">05</div>
+            <h3>Decisioni straordinarie</h3>
+            <p>Le scelte che cambiano le regole del gioco, a voto.</p>
+            <span class="chev">›</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- DETAIL: RITUALI -->
+    <div class="detail open" id="d-rituali">
+      <div class="panel" id="rituali">
+        <h3>Rituali olocratici</h3>
+        <p class="plead">L'autorità è distribuita in ruoli, non concentrata in capi. Il cambiamento nasce dalle tensioni e passa da due riunioni con funzioni diverse.</p>
+
+        <h4><span class="idx">A.</span>Ruoli, non persone</h4>
+        <p>Il lavoro è organizzato in <b>ruoli</b>, ciascuno con un purpose e delle responsabilità (accountability), dentro il cerchio FAIRFLAI. Una persona può energizzare più ruoli. Chi ricopre un ruolo ha l'autorità di agire nel suo ambito <b>senza chiedere permesso</b>.</p>
+
+        <div class="callgrid">
+          <div class="callcard gold">
+            <div class="ct">Ruoli costituzionali</div>
+            <h5>Circle Lead · Facilitator · Secretary</h5>
+            <p>Il Circle Lead tiene il purpose del cerchio, assegna i ruoli e le priorità. Il Facilitator conduce le riunioni secondo la Costituzione. Il Secretary convoca, verbalizza e custodisce i record.</p>
+          </div>
+          <div class="callcard">
+            <div class="ct">Ruoli operativi (esempi reali)</div>
+            <h5>Business Developer · GTM Ops · Recruiter</h5>
+            <p>E ancora: Data Keeper, OKR Champion, FairFlaier Bootstrapper, oltre ai ruoli trasversali FAIRFLAIER e FELLOW. Ogni ruolo ha responsabilità esplicite e pubbliche su Nestr.</p>
+          </div>
+        </div>
+
+        <h4><span class="idx">B.</span>Le tensioni: il motore</h4>
+        <p>Una <b>tensione</b> è la distanza tra come stanno le cose e come potrebbero stare — un problema o un'opportunità. Chiunque energizzi un ruolo può portare una tensione e processarla nella riunione giusta. È così che l'organizzazione si aggiorna di continuo, senza aspettare una riforma dall'alto.</p>
+
+        <h4><span class="idx">C.</span>Due riunioni, due scopi</h4>
+        <div class="callgrid">
+          <div class="callcard">
+            <div class="ct">Governance meeting</div>
+            <h5>Si lavora <em>sulla</em> struttura</h5>
+            <p>Creare o modificare ruoli, responsabilità e policy. Si usa il <b>processo decisionale integrativo</b>: una proposta si adotta se non emergono obiezioni valide — non serve entusiasmo unanime, basta che sia "abbastanza buona per ora e sicura da provare".</p>
+          </div>
+          <div class="callcard">
+            <div class="ct">Tactical meeting</div>
+            <h5>Si lavora <em>nel</em> business</h5>
+            <p>Avanzamento operativo, richieste tra ruoli, prossime azioni. Qui passano anche cose concrete come l'aggiornamento della tariffa base o le spese sopra la soglia "waterline".</p>
+          </div>
+        </div>
+        <div class="note"><b>In sintesi:</b> le decisioni quotidiane le prende chi ha il ruolo; le decisioni che cambiano la struttura si portano in Governance e si risolvono per obiezioni, non per voto. Il voto entra in gioco solo per le decisioni straordinarie.</div>
+      </div>
+    </div>
+
+    <!-- DETAIL: WATERLINE -->
+    <div class="detail" id="d-waterline">
+      <div class="panel" id="waterline">
+        <h3>Waterline — autonomia di spesa</h3>
+        <p class="plead">Le spese seguono la logica del "waterline investing": sotto una certa linea di galleggiamento si agisce in autonomia, sopra si coinvolge il team. La trasparenza è d'obbligo — ogni spesa va registrata prima di essere sostenuta nel registro pubblico su Monday.</p>
+        <div class="callgrid">
+          <div class="callcard gold">
+            <div class="ct">Fino a €500 — sotto waterline</div>
+            <h5>Autonomia piena</h5>
+            <p>Spesa autorizzata in autonomia. Unico obbligo: la registrazione ex-ante nel registro pubblico.</p>
+          </div>
+          <div class="callcard">
+            <div class="ct">Oltre €500 — sopra waterline</div>
+            <h5>Comunichi, poi decidi</h5>
+            <p>Registrazione ex-ante + comunicazione al team prima di spendere (tensione in Tactical o canale Slack "Sales deals"). Il team dà feedback entro 24h, ma la decisione finale resta di chi propone.</p>
+          </div>
+        </div>
+        <div class="note">C'è un tetto: il budget waterline di ogni quadrimestre è pari al <b>5% del budget annuale</b> di quella categoria. Superarlo richiede l'approvazione con processo integrativo in Tactical.</div>
+      </div>
+    </div>
+
+    <!-- DETAIL: INCARICHI -->
+    <div class="detail" id="d-incarichi">
+      <div class="panel" id="incarichi">
+        <h3>Incarichi di progetto</h3>
+        <p class="plead">Il denaro di un progetto si distribuisce tramite incarichi tracciati su Monday, e la responsabilità di impostarli è chiara. Prima dell'avvio formale di un progetto, il Client Owner assegnato:</p>
+        <ul>
+          <li>Definisce e concorda su Monday gli <b>incarichi</b> — con importi e deliverable — insieme alle persone coinvolte nella delivery</li>
+          <li>Valuta se serve un <b>Project Manager</b> e, in tal caso, gli assegna un incarico dedicato</li>
+          <li>Si <b>autoalloca un incarico remunerato</b> per l'attività di setup pre-avvio</li>
+          <li>Mantiene gli incarichi aggiornati nel tempo</li>
+        </ul>
+        <div class="note"><b>Perché conta:</b> importi e deliverable sono chiari e condivisi <b>prima</b> di iniziare — niente ambiguità su chi fa cosa e con quale compenso.</div>
+      </div>
+    </div>
+
+    <!-- DETAIL: PIE -->
+    <div class="detail" id="d-pie">
+      <div class="panel" id="pie">
+        <h3>Slicing Pie</h3>
+        <p class="plead">Equity dinamica. Nessuno negozia una percentuale fissa all'avvio: ciascuno accumula una quota proporzionale al contributo reale, finché la torta non viene "congelata".</p>
+
+        <h4><span class="idx">A.</span>Ogni contributo vale token — con un moltiplicatore</h4>
+        <p>Ogni contributo si quantifica in euro e si moltiplica per il proprio coefficiente. La quota di ciascuno è il rapporto tra il proprio contributo ponderato e il totale.</p>
+        <table class="mult">
+          <tr><th>Tipo di contributo</th><th>Moltiplicatore</th></tr>
+          <tr><td>Cash investito</td><td>× 2</td></tr>
+          <tr><td>Sales fee, accounting, team pregresso su vendite (valore vendita, IVA escl.)</td><td>× 2</td></tr>
+          <tr><td>Tempo billable non retribuito + revenue sharing (gg × tariffa)</td><td>× 1,5</td></tr>
+          <tr><td>Tempo non billable (gg × tariffa)</td><td>× 1</td></tr>
+          <tr><td>Altri asset: IP, spazi, attrezzature, licenze (valore di mercato)</td><td>× 0,5</td></tr>
+        </table>
+
+        <h4><span class="idx">B.</span>Revenue sharing e tariffa base</h4>
+        <ul>
+          <li>Ogni FAIRFLAIER matura <b>€1.000 lordi/mese</b> di revenue sharing (dopo 20 giorni lavorativi dall'ingresso). Il Business Developer ha +€2.000/mese per i primi 6 mesi.</li>
+          <li>Si può <b>rinunciare</b> al revenue sharing di un mese e <b>conferirlo in Slicing Pie</b>, applicando il moltiplicatore relativo.</li>
+          <li>All'ingresso ciascuno propone la propria <b>tariffa base</b>: le reazioni del gruppo sono consultive, ma la responsabilità della tariffa resta della persona.</li>
+        </ul>
+
+        <h4><span class="idx">C.</span>La distinzione più critica: captive vs produzione netta</h4>
+        <p>I progetti il cui cliente finale è <b>Kopernicana</b> (produzione "captive") seguono una regola doppia, ed è qui che si sbaglia più facilmente:</p>
+        <ul>
+          <li><b>Contano</b> per far scattare il trigger del baking (produzione totale).</li>
+          <li><b>Non entrano</b> nella valutazione di FAIRFLAI ai fini delle opzioni put/call, che si calcola solo sulla <b>Produzione Netta</b> (12 mesi rolling).</li>
+        </ul>
+
+        <h4><span class="idx">D.</span>Il baking: quando la torta si congela</h4>
+        <div class="stat">
+          <div class="big">€1M</div>
+          <div class="sd">Quando la produzione totale (inclusa captive) su 12 mesi rolling raggiunge <b>€1.000.000</b>, le quote si cristallizzano in equity formale. La verifica è mensile.</div>
+        </div>
+        <div class="formula">Equity<span class="g">(i)</span> = ( Contributo Ponderato<span class="g">(i)</span> / Totale ) × <span class="g">95%</span>&nbsp;&nbsp;·&nbsp;&nbsp;il restante <span class="g">5%</span> è sempre di Kopernicana</div>
+        <div class="note"><b>Dopo il baking</b> entrano in gioco opzioni <b>put/call</b> che regolano il rapporto con Kopernicana a seconda che questa detenga meno o più del 51% dell'equity. Kopernicana è socio istituzionale con trattamento dedicato.</div>
+      </div>
+    </div>
+
+    <!-- DETAIL: STRAORDINARIE -->
+    <div class="detail" id="d-straordinarie">
+      <div class="panel" id="straordinarie">
+        <h3>Decisioni straordinarie</h3>
+        <p class="plead">La regola generale è il processo integrativo in Governance. L'eccezione sono poche decisioni che toccano soci, equity e regole del gioco: quelle si votano.</p>
+
+        <h4><span class="idx">A.</span>Chi vota e con quanto peso</h4>
+        <ul>
+          <li><b>Socio attivo</b> = chi ha conferito valore in Slicing Pie ed è ancora in regime SP. I FELLOW non votano.</li>
+          <li>Il peso del voto è <b>proporzionale alla radice quadrata della quota</b> Slicing Pie al momento del voto.</li>
+          <li><b>Quorum:</b> tutti i soci attivi sono tenuti a votare, in riunione o entro 24 ore. Si può <b>delegare</b> il voto a un altro socio attivo, indicandone la durata.</li>
+          <li><b>Soglia:</b> la proposta passa se i favorevoli pesati raggiungono almeno il <b>50%</b> del peso totale.</li>
+        </ul>
+
+        <div class="demo">
+          <h4 style="margin-bottom:4px">Perché la radice quadrata?</h4>
+          <p style="font-size:14px;color:#555;margin:6px 0 4px">Comprime i differenziali di potere e protegge le minoranze: chi ha 4× la quota pesa solo 2× nel voto. Muovi le quote e confronta il peso "puro" (proporzionale) con il peso a radice quadrata.</p>
+          <div class="row"><label>Socio A</label><input type="range" min="1" max="60" value="40" id="qa"></div>
+          <div class="row"><label>Socio B</label><input type="range" min="1" max="60" value="20" id="qb"></div>
+          <div class="row"><label>Socio C</label><input type="range" min="1" max="60" value="10" id="qc"></div>
+          <div class="bars" id="bars"></div>
+          <div class="legend">
+            <span><span class="sw" style="background:#bdbdbd"></span> Peso proporzionale puro</span>
+            <span><span class="sw" style="background:#F5A623"></span> Peso a radice quadrata (usato da FAIRFLAI)</span>
+          </div>
+        </div>
+
+        <h4><span class="idx">B.</span>Quali decisioni sono straordinarie</h4>
+        <div class="decisions">
+          <div class="dcard"><span class="n">1</span> Conferimento di liquidità in FAIRFLAI in regime di Slicing Pie</div>
+          <div class="dcard"><span class="n">2</span> Ingresso di un nuovo Fairflaier</div>
+          <div class="dcard"><span class="n">3</span> Adesione di un Fairflaier al regime di Slicing Pie</div>
+          <div class="dcard"><span class="n">4</span> Estromissione di un Fairflaier dal regime di Slicing Pie</div>
+          <div class="dcard"><span class="n">5</span> Modifica del trigger event per il baking</div>
+          <div class="dcard"><span class="n">6</span> Modifica delle attività conferibili in Slicing Pie o dei loro moltiplicatori</div>
+        </div>
+        <div class="note">Tutto ciò che non è in questo elenco segue la regola generale: si decide in Governance meeting con processo integrativo, non a voto.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <svg viewBox="0 0 200 100" width="42" height="21" aria-hidden="true">
+      <g fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round">
+        <path d="M99.5 2 L113 12 L112 37 L86 37 L85.5 12 Z"/>
+        <path d="M3 2 L76 13 L80 38 L28 52 Z"/>
+        <path d="M197 2 L124 13 L120 38 L172 52 Z"/>
+        <path d="M68 46 L133 46 L134 70 L100 96 L67 70 Z"/>
+      </g>
+    </svg>
+    <div>FAIRFLAI — micro-impresa dell'ecosistema Kopernicana</div>
+    <div class="src">
+      Fonti: policy FAIRFLAI su Nestr (Slicing Pie · Decisioni di governance e straordinarie · Revenue sharing · Tariffa base)<br>
+      e vault di governance di progetto. Stato verificato: luglio 2026.
+    </div>
+  </div>
+</footer>
+
+<div class="pitto-corner">
+  <svg viewBox="0 0 200 100" width="48" height="24" aria-hidden="true">
+    <g fill="#1A1A1A" stroke="#1A1A1A" stroke-width="3" stroke-linejoin="round">
+      <path d="M99.5 2 L113 12 L112 37 L86 37 L85.5 12 Z"/>
+      <path d="M3 2 L76 13 L80 38 L28 52 Z"/>
+      <path d="M197 2 L124 13 L120 38 L172 52 Z"/>
+      <path d="M68 46 L133 46 L134 70 L100 96 L67 70 Z"/>
+    </g>
+  </svg>
+</div>
+
+<script>
+  // ---- node -> detail toggle ----
+  const nodes = document.querySelectorAll('.node');
+  const details = document.querySelectorAll('.detail');
+  nodes.forEach(n=>{
+    n.addEventListener('click',()=>{
+      const t = n.dataset.target;
+      nodes.forEach(x=>x.classList.toggle('active', x===n));
+      details.forEach(d=>d.classList.toggle('open', d.id===t));
+    });
+  });
+
+  // ---- sqrt voting demo ----
+  const ids = ['qa','qb','qc'];
+  const names = ['A','B','C'];
+  const barsEl = document.getElementById('bars');
+  function render(){
+    const q = ids.map(id=>+document.getElementById(id).value);
+    const sumQ = q.reduce((a,b)=>a+b,0);
+    const sq = q.map(v=>Math.sqrt(v));
+    const sumSq = sq.reduce((a,b)=>a+b,0);
+    barsEl.innerHTML = q.map((v,i)=>{
+      const prop = (v/sumQ*100);
+      const rad  = (sq[i]/sumSq*100);
+      return `<div class="barline">
+        <div class="bl-top"><b>Socio ${names[i]}</b><span>quota ${prop.toFixed(0)}%</span></div>
+        <div class="bar"><div class="fill cap" style="width:${prop.toFixed(1)}%"></div></div>
+        <div class="bar" style="margin-top:4px"><div class="fill sqrt" style="width:${rad.toFixed(1)}%"></div><span style="position:absolute;right:8px;top:4px;font-size:12px;font-weight:800;color:#5a3f07">${rad.toFixed(0)}% peso voto</span></div>
+      </div>`;
+    }).join('');
+  }
+  ids.forEach(id=>document.getElementById(id).addEventListener('input',render));
+  render();
+</script>
+</body>
+</html>
